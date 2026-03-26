@@ -98,21 +98,21 @@ const Countdown = () => {
           ))}
         </motion.div>
 
-        {/* Card Aviso Programação */}
+        {/* Card Aviso Programação Lançada */}
         <motion.div 
-          className="bg-[#3D1A0D]/60 border border-secundaria/30 rounded-2xl p-6 md:p-8 text-center max-w-3xl mx-auto shadow-xl relative overflow-hidden"
+          className="bg-gradient-to-r from-[#3D1A0D]/60 to-[#2D1205]/60 border border-secundaria/30 rounded-2xl p-6 md:p-8 text-center max-w-3xl mx-auto shadow-xl relative overflow-hidden"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
           <div className="absolute top-0 right-0 w-32 h-32 bg-destaque/10 rounded-full blur-3xl -mr-10 -mt-10"></div>
           
-          <div className="text-3xl mb-4">⚠️</div>
+          <div className="text-3xl mb-4">🔥🎵</div>
           <h3 className="text-xl md:text-2xl font-bold font-serif text-secundaria mb-3">
-            Programação Completa em Breve!
+            A Programação Oficial Foi Lançada!
           </h3>
-          <p className="text-textoClaro/90 mb-6 leading-relaxed">
-            A grade de atrações oficial será publicada nos próximos dias. Cadastre seu e-mail e seja o primeiro a saber quando sair!
+          <p className="text-textoClaro/90 mb-6 leading-relaxed font-medium">
+            O tema deste ano é "Tecido de tradições, costurando gerações". Cadastre-se na nossa lista VIP abaixo para receber novidades, mapas e as melhores dicas direto no seu e-mail.
           </p>
 
           <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3 justify-center max-w-lg mx-auto relative z-10">
