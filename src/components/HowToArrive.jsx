@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import mapPreview from '../assets/map_preview.png';
 
 const HowToArrive = () => {
   const options = [
@@ -37,16 +38,27 @@ const HowToArrive = () => {
           <p className="text-textoClaro/90 text-lg leading-relaxed mb-8">
             Fácil acesso para o Brasil e o mundo. Caruaru está estrategicamente localizada no Agreste Pernambucano, conectada por rodovias de qualidade e próxima à capital.
           </p>
-          <div className="mt-8 relative h-48 rounded-2xl overflow-hidden border border-primaria/30">
-            {/* Fake Map */}
-            <div className="absolute inset-0 bg-[#1A0A00] flex items-center justify-center opacity-80 backdrop-blur-sm">
-              <span className="text-5xl">🗺️</span>
+          
+          <a 
+            href="https://www.google.com/maps/search/?api=1&query=Patio+de+Eventos+Luiz+Gonzaga+Caruaru" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="group block relative h-64 rounded-2xl overflow-hidden border border-primaria/30 hover:border-destaque transition-all shadow-2xl"
+          >
+            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors z-10 flex items-center justify-center">
+              <span className="bg-destaque text-fundo px-4 py-2 rounded-full font-bold opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all">
+                Ver no Google Maps →
+              </span>
             </div>
-            <div className="absolute inset-0 bg-map-pattern opacity-30 mix-blend-overlay"></div>
-            <div className="absolute bottom-4 left-4 bg-fundo/80 text-sm px-3 py-1 rounded-full text-destaque font-bold">
-              📍 Caruaru, PE
+            <img 
+              src={mapPreview} 
+              alt="Mapa do Pátio de Eventos" 
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            />
+            <div className="absolute bottom-4 left-4 bg-fundo/90 backdrop-blur-md text-sm px-4 py-2 rounded-full text-destaque font-bold z-20 shadow-lg border border-primaria/30">
+              📍 Pátio de Eventos
             </div>
-          </div>
+          </a>
         </motion.div>
 
         <motion.div 

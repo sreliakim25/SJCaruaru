@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const AttractionCard = ({ name, date, location, badge, description, delay }) => (
   <motion.div 
@@ -37,7 +37,67 @@ const AttractionCard = ({ name, date, location, badge, description, delay }) => 
   </motion.div>
 );
 
+const scheduleByPole = [
+  {
+    id: "patio",
+    name: "Pátio de Eventos",
+    icon: "🎪",
+    schedule: [
+      { date: "30 de Maio", artists: ["Elba Ramalho", "Mari Fernandez", "Solange Almeida"] },
+      { date: "12 de Junho", artists: ["Roberto Carlos", "Batista Lima"] },
+      { date: "13 de Junho", artists: ["Alok", "Bell Marques", "Zé Vaqueiro"] },
+      { date: "19 de Junho", artists: ["Wesley Safadão"] },
+      { date: "21 de Junho", artists: ["Luan Santana", "Henry Freitas"] },
+      { date: "27 de Junho", artists: ["Gusttavo Lima", "Thiaguinho", "Xandy Avião"] }
+    ]
+  },
+  {
+    id: "azulao",
+    name: "Polo Azulão",
+    icon: "🎸",
+    schedule: [
+      { date: "05 de Junho", artists: ["Nação Zumbi", "Academia da Berlinda"] },
+      { date: "06 de Junho", artists: ["BaianaSystem", "Siba"] },
+      { date: "12 de Junho", artists: ["Alceu Valença (Voz e Violão)"] },
+      { date: "19 de Junho", artists: ["Pitty", "Marcelo Falcão"] }
+    ]
+  },
+  {
+    id: "altodomoura",
+    name: "Alto do Moura",
+    icon: "🎨",
+    schedule: [
+      { date: "Finais de Semana", artists: ["Trios Pé-de-Serra Regionais (10h às 17h)"] },
+      { date: "07 de Junho", artists: ["Santanna, O Cantador"] },
+      { date: "14 de Junho", artists: ["Petrúcio Amorim"] },
+      { date: "24 de Junho", artists: ["Maciel Melo", "Novinho da Paraíba"] }
+    ]
+  },
+  {
+    id: "estacao",
+    name: "Estação Ferroviária",
+    icon: "🚂",
+    schedule: [
+      { date: "Diariamente", artists: ["Exposições de Arte", "Pífanos e Cultura Popular"] },
+      { date: "Sábados e Domingos", artists: ["Apresentações Teatrais e Intervenções Urbanas"] },
+      { date: "23 de Junho", artists: ["Festival de Repentistas"] }
+    ]
+  },
+  {
+    id: "quadrilhas",
+    name: "Polo das Quadrilhas",
+    icon: "💃",
+    schedule: [
+      { date: "10 de Junho", artists: ["Abertura do Concurso de Quadrilhas Juninas"] },
+      { date: "15 a 20 de Junho", artists: ["Apresentações Regionais (Grupo de Acesso)"] },
+      { date: "25 de Junho", artists: ["Grande Final do Concurso Principal"] }
+    ]
+  }
+];
+
 const Attractions = () => {
+  const [activePole, setActivePole] = useState(scheduleByPole[0].id);
+
   const atracoes = [
     { name: "Elba Ramalho & Mari Fernandez", date: "30 de maio", loc: "Pátio Luiz Gonzaga", desc: "Abertura do Pátio Principal com grandes vozes femininas e Solange Almeida." },
     { name: "Roberto Carlos", date: "12 de junho", loc: "Pátio Luiz Gonzaga", desc: "A noite mais romântica do Brasil com o Rei e Batista Lima." },
@@ -53,6 +113,8 @@ const Attractions = () => {
     { name: "Prazeres Barbosa", badge: "HOMENAGEADA 2026", desc: "Ícone da cultura caruaruense, celebrando matrizes e tradições." },
     { name: "Mércia Pinheiro", badge: "IN MEMORIAM", desc: "Homenagem póstuma a uma grande personalidade cultural de Caruaru." }
   ];
+
+  const activePoleData = scheduleByPole.find(pole => pole.id === activePole);
 
   return (
     <section id="programacao" className="py-24 px-4 bg-gradient-to-b from-[#231000] to-fundo text-textoClaro relative">
@@ -104,8 +166,8 @@ const Attractions = () => {
           </div>
         </div>
 
-        {/* Grade de Atrações Confirmed */}
-        <div>
+        {/* Grade de Atrações Confirmed (Destaques) */}
+        <div className="mb-24">
           <div className="flex flex-col items-center mb-12 text-center">
             <h2 className="text-4xl md:text-5xl font-serif font-bold text-destaque mb-4">
               Principais Destaques do Pátio
@@ -129,9 +191,100 @@ const Attractions = () => {
           </div>
         </div>
 
+        {/* Nova Seção Interativa da Programação por Polos */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="border-t border-primaria/20 pt-20"
+        >
+          <div className="flex flex-col items-center mb-12 text-center">
+            <h2 className="text-4xl md:text-5xl font-serif font-bold text-textoClaro mb-4">
+              Programação Completa
+            </h2>
+            <p className="text-textoClaro/70 max-w-2xl">
+              Navegue pelos nossos polos e descubra todas as atrações lançadas para esta edição histórica.
+            </p>
+          </div>
+
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Menu de Polos */}
+            <div className="flex flex-row lg:flex-col gap-3 overflow-x-auto lg:overflow-x-visible pb-4 lg:pb-0 lg:w-1/3 hide-scrollbar">
+              {scheduleByPole.map(pole => (
+                <button
+                  key={pole.id}
+                  onClick={() => setActivePole(pole.id)}
+                  className={`flex-shrink-0 lg:flex-shrink w-auto flex items-center gap-3 px-6 py-4 rounded-xl font-bold transition-all whitespace-nowrap lg:whitespace-normal text-left ${
+                    activePole === pole.id 
+                      ? 'bg-primaria text-textoClaro shadow-lg scale-100 lg:scale-105'
+                      : 'bg-[#1A0A00] text-textoClaro/60 hover:bg-[#2D1205] hover:text-secundaria'
+                  }`}
+                >
+                  <span className="text-2xl">{pole.icon}</span>
+                  {pole.name}
+                </button>
+              ))}
+            </div>
+
+            {/* Programação do Polo Ativo */}
+            <div className="lg:w-2/3 bg-[#2D1205]/40 border border-primaria/20 rounded-2xl p-6 md:p-8 min-h-[400px]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activePole}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="flex items-center gap-4 mb-8 pb-4 border-b border-primaria/30">
+                    <span className="text-4xl">{activePoleData.icon}</span>
+                    <h3 className="text-3xl font-serif font-bold text-secundaria">
+                      {activePoleData.name}
+                    </h3>
+                  </div>
+                  
+                  <div className="space-y-6">
+                    {activePoleData.schedule.map((session, idx) => (
+                      <motion.div 
+                        key={idx}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: idx * 0.1 }}
+                        className="bg-fundo/40 p-5 rounded-xl border border-primaria/10 hover:border-destaque/30 transition-colors"
+                      >
+                        <h4 className="text-destaque font-bold text-lg mb-3 flex items-center gap-2">
+                          <span className="bg-destaque/20 text-destaque px-3 py-1 rounded-md text-sm">📅 {session.date}</span>
+                        </h4>
+                        <ul className="space-y-2 pl-2 border-l-2 border-secundaria/30">
+                          {session.artists.map((artist, i) => (
+                            <li key={i} className="text-textoClaro/90 pl-3 flex items-center gap-2 text-lg">
+                              <span className="text-secundaria text-sm">🎤</span> {artist}
+                            </li>
+                          ))}
+                        </ul>
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
+        </motion.div>
+
       </div>
+      
+      <style jsx>{`
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .hide-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
     </section>
   );
 };
 
 export default Attractions;
+
